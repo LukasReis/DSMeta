@@ -3,6 +3,7 @@ package com.devsuperior.dsMeta.services;
 import com.devsuperior.dsMeta.entities.Sale;
 import com.devsuperior.dsMeta.repositories.SalesRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
@@ -12,9 +13,9 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 
 @Service
-@AllArgsConstructor
 public class SalesServices {
 
+    @Autowired
     private SalesRepository repository;
 
     public Page<Sale> findSales(String minDate, String maxDate,Pageable pageable){

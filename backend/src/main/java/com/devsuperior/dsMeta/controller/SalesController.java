@@ -1,21 +1,21 @@
 package com.devsuperior.dsMeta.controller;
 
+import com.devsuperior.dsMeta.services.SmsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
-import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 import com.devsuperior.dsMeta.services.SalesServices;
 import com.devsuperior.dsMeta.entities.Sale;
 
 @RestController
 @RequestMapping(value = "/sales")
-@AllArgsConstructor
 public class SalesController {
-
+    @Autowired
     private SalesServices salesServices;
+    @Autowired
+    private SmsService smsService;
+
 @GetMapping
    public Page<Sale> findSales(
            @RequestParam(value="minDate", defaultValue = "") String minDate,
@@ -23,5 +23,10 @@ public class SalesController {
            Pageable pageable){
        return salesServices.findSales(minDate, maxDate,pageable);
    }
+
+    @GetMapping("/{id}/notification")
+    public void notifySms(@PathVariable Long saleId){
+    smsService.sendSms(saleId);
+    }
 
 }
